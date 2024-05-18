@@ -13,6 +13,7 @@ yarn chain
 yarn deploy
 yarn start
 ```
+
 ## 项目功能
 
 * 可以通过 `launch` 接口发起项目
