@@ -74,5 +74,11 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 		return _sbtStatusMap[tokenId_][user];
 	}
 
-	function useSBT(uint256 tokenId_) public {}
+	function useSBT(uint256 tokenId_) public {
+		require(
+			_sbtStatusMap[tokenId_][msg.sender] == SBTStatus.PAID,
+			"Your SBT is not in PAID status"
+		);
+		_sbtStatusMap[tokenId_][msg.sender] = SBTStatus.USED;
+	}
 }
