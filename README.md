@@ -29,6 +29,8 @@ yarn start
 * `buySBT` 购买某个项目的 SBT, 用户支付 eth，并存入项目的国库
 * `sbtStatus` 检查某个 SBT 状态：NONE, PAID, USED
 * `useSBT` 使用这个 SBT
+* `buyFT` 购买某个项目的 FT，需支付费用 `ftPrice * amount`
+* `buyNFT` 购买某个项目的 NFT，需支付费用 `ftSwapAmount * ftPrice`
 *
 
 # 🏗 Scaffold-ETH 2
