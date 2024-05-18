@@ -132,8 +132,8 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 		_checkBeforeMint(tokenId_, msg.value, amount_, 0);
 
 		_mint(msg.sender, tokenId_, amount_, "");
-		_tokenVault[tokenId_] += msg.value;
 		_tokenFTAmount[tokenId_] += amount_;
+		_tokenVault[tokenId_] += msg.value;
 	}
 
 	function buyNFT(
@@ -153,5 +153,6 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 		_tokenNFTOwnerMap[tokenId_][subTokenId_] = msg.sender;
 		_tokenNFTOwnedMap[tokenId_][msg.sender].push(subTokenId_);
 		_tokenNFTAmount[tokenId_] += 1;
+		_tokenVault[tokenId_] += msg.value;
 	}
 }
