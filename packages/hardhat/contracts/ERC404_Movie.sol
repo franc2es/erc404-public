@@ -11,6 +11,7 @@ struct Token {
 	uint256 sbtPrice;
 	uint256 ftPrice;
 	uint256 ftSwapAmount;
+	address owner;
 }
 
 enum SBTStatus {
@@ -55,7 +56,13 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 	) public returns (uint256) {
 		// TODO: use pay token to launch new token?
 		uint256 tokenId = _nextTokenId++;
-		_tokenMap[tokenId] = Token(name_, sbtPrice_, ftPrice_, ftSwapAmount_);
+		_tokenMap[tokenId] = Token(
+			name_,
+			sbtPrice_,
+			ftPrice_,
+			ftSwapAmount_,
+			msg.sender
+		);
 
 		return tokenId;
 	}
@@ -154,5 +161,48 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 		_tokenNFTOwnedMap[tokenId_][msg.sender].push(subTokenId_);
 		_tokenNFTAmount[tokenId_] += 1;
 		_tokenVault[tokenId_] += msg.value;
+	}
+
+	function swapToFT(uint256 tokenId_, uint256 subTokenId_) public {
+		require(
+			_tokenNFTOwnerMap[tokenId_][subTokenId_] == msg.sender,
+			"You are not the owner"
+		);
+
+		uint256 amount = _tokenMap[tokenId_].ftSwapAmount;
+		_mint(msg.sender, tokenId_, amount, "");
+		_tokenFTAmount[tokenId_] += amount;
+		_tokenNFTOwnerMap[tokenId_][subTokenId_] = address(0);
+		_tokenNFTAmount[tokenId_] -= 1;
+
+		// remove ownership from msg.sender
+		uint256 len = _tokenNFTOwnedMap[tokenId_][msg.sender].length;
+		for (uint256 i = 0; i < len; i++) {
+			if (_tokenNFTOwnedMap[tokenId_][msg.sender][i] != subTokenId_) {
+				continue;
+			}
+			if (i != len - 1) {
+				_tokenNFTOwnedMap[tokenId_][msg.sender][i] = _tokenNFTOwnedMap[
+					tokenId_
+				][msg.sender][len - 1];
+			}
+			_tokenNFTOwnedMap[tokenId_][msg.sender].pop();
+		}
+	}
+
+	function swapToNFT(uint256 tokenId_, uint256 subTokenId_) public {
+		require(
+			_tokenNFTOwnerMap[tokenId_][subTokenId_] == address(0),
+			"Token already have owner"
+		);
+		require(
+			balanceOf(msg.sender, tokenId_) >= _tokenMap[tokenId_].ftSwapAmount,
+			"You do not have enough FT"
+		);
+
+		_burn(msg.sender, tokenId_, _tokenMap[tokenId_].ftSwapAmount);
+		_tokenNFTOwnerMap[tokenId_][subTokenId_] = msg.sender;
+		_tokenNFTOwnedMap[tokenId_][msg.sender].push(subTokenId_);
+		_tokenNFTAmount[tokenId_] += 1;
 	}
 }

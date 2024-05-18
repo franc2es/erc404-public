@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     ERC404_Movie: {
-      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
       abi: [
         {
           inputs: [],
@@ -250,6 +250,11 @@ const deployedContracts = {
               name: "tokenId_",
               type: "uint256",
             },
+            {
+              internalType: "uint256",
+              name: "subTokenId_",
+              type: "uint256",
+            },
           ],
           name: "buyNFT",
           outputs: [],
@@ -267,6 +272,25 @@ const deployedContracts = {
           name: "buySBT",
           outputs: [],
           stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId_",
+              type: "uint256",
+            },
+          ],
+          name: "getCurrentSupply",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {
@@ -492,6 +516,42 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId_",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "subTokenId_",
+              type: "uint256",
+            },
+          ],
+          name: "swapToFT",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId_",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "subTokenId_",
+              type: "uint256",
+            },
+          ],
+          name: "swapToNFT",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {

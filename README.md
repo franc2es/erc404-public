@@ -29,9 +29,10 @@ yarn start
 * `buySBT` 购买某个项目的 SBT, 用户支付 eth，并存入项目的国库
 * `sbtStatus` 检查某个 SBT 状态：NONE, PAID, USED
 * `useSBT` 使用这个 SBT
-* `buyFT` 购买某个项目的 FT，需支付费用 `ftPrice * amount`
-* `buyNFT` 购买某个项目的 NFT，需支付费用 `ftSwapAmount * ftPrice`
-*
+* `buyFT` 购买某个项目的 FT，需支付费用 `token.ftPrice * amount`
+* `buyNFT` 购买某个项目的 NFT，需支付费用 `token.ftSwapAmount * ftPrice`
+* `swapToFT` 把某个持有的 NFT 兑换成 FT
+* `swapToNFT` 销毁 `token.ftSwapAmount` 个 FT，兑换为一个没有持有人的 NFT
 
 # 🏗 Scaffold-ETH 2
 
