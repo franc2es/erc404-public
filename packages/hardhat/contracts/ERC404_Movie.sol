@@ -6,25 +6,32 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import "hardhat/console.sol";
+struct Token {
+	string name;
+	uint256 sbtPrice;
+	uint256 ftPrice;
+	uint256 ftSwapAmount;
+}
+
+enum SBTStatus {
+	NONE,
+	PAID,
+	USED
+}
 
 contract ERC404_Movie is ERC1155Pausable, Ownable {
-	uint256 private _nextTokenId;
-	struct Token {
-		string name;
-		uint256 sbtPrice;
-		uint256 ftPrice;
-		uint256 ftSwapAmount;
-	}
+	uint256 private _nextTokenId = 1;
 
 	mapping(uint256 => Token) _tokenMap;
 
-	enum SBTStatus {
-		NONE,
-		PAID,
-		USED
-	}
 	mapping(uint256 => mapping(address => SBTStatus)) _sbtStatusMap;
+
+	mapping(uint256 => uint256) _tokenSBTVault;
+	mapping(uint256 => uint256) _tokenVault;
+	mapping(uint256 => uint256) _tokenFTAmount;
+	mapping(uint256 => uint256) _tokenNFTAmount;
+	mapping(uint256 => mapping(uint256 => address)) _tokenNFTOwnerMap;
+	mapping(uint256 => mapping(address => uint256[])) _tokenNFTOwnedMap;
 
 	constructor() ERC1155("https://erc404-movie.com/api/token/") Ownable() {}
 
@@ -55,9 +62,14 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 
 	receive() external payable {}
 
-	function buySBT(uint256 tokenId_) public payable {
+	modifier tokenHasLaunched(uint256 tokenId_) {
 		require(tokenId_ < _nextTokenId, "tokenId not exist");
+		_;
+	}
 
+	function buySBT(
+		uint256 tokenId_
+	) public payable tokenHasLaunched(tokenId_) {
 		Token memory token = _tokenMap[tokenId_];
 		require(msg.value >= token.sbtPrice, "payment not enough");
 		require(
@@ -65,6 +77,7 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 			"You have buy the SBT"
 		);
 		_sbtStatusMap[tokenId_][msg.sender] = SBTStatus.PAID;
+		_tokenSBTVault[tokenId_] += msg.value;
 	}
 
 	function sbtStatus(
@@ -80,5 +93,65 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 			"Your SBT is not in PAID status"
 		);
 		_sbtStatusMap[tokenId_][msg.sender] = SBTStatus.USED;
+	}
+
+	function getCurrentSupply(uint256 tokenId_) public view returns (uint256) {
+		return
+			_tokenFTAmount[tokenId_] +
+			_tokenNFTAmount[tokenId_] *
+			_tokenMap[tokenId_].ftSwapAmount;
+	}
+
+	function _checkBeforeMint(
+		uint256 tokenId_,
+		uint256 userPayment_,
+		uint256 ftAmount_,
+		uint256 nftAmount_
+	) internal view {
+		Token memory token = _tokenMap[tokenId_];
+		uint256 requiredPayment = token.ftPrice *
+			ftAmount_ +
+			token.ftSwapAmount *
+			10000 *
+			nftAmount_;
+		require(userPayment_ >= requiredPayment, "payment not enough");
+
+		uint256 maxSupplyAmount = token.ftSwapAmount * 10000;
+		uint256 currentSupply = getCurrentSupply(tokenId_);
+		uint256 newSupplyAmount = currentSupply +
+			ftAmount_ +
+			nftAmount_ *
+			10000;
+		require(newSupplyAmount <= maxSupplyAmount, "exceed max supply amount");
+	}
+
+	function buyFT(
+		uint256 tokenId_,
+		uint256 amount_
+	) public payable tokenHasLaunched(tokenId_) {
+		_checkBeforeMint(tokenId_, msg.value, amount_, 0);
+
+		_mint(msg.sender, tokenId_, amount_, "");
+		_tokenVault[tokenId_] += msg.value;
+		_tokenFTAmount[tokenId_] += amount_;
+	}
+
+	function buyNFT(
+		uint256 tokenId_,
+		uint256 subTokenId_
+	) public payable tokenHasLaunched(tokenId_) {
+		require(
+			_tokenNFTOwnerMap[tokenId_][subTokenId_] == address(0),
+			"Token already have owner"
+		);
+		require(
+			subTokenId_ > 0 && subTokenId_ <= 10000,
+			"sub tokenId should between 1 and 10000"
+		);
+		_checkBeforeMint(tokenId_, msg.value, 0, 1);
+
+		_tokenNFTOwnerMap[tokenId_][subTokenId_] = msg.sender;
+		_tokenNFTOwnedMap[tokenId_][msg.sender].push(subTokenId_);
+		_tokenNFTAmount[tokenId_] += 1;
 	}
 }
