@@ -33,6 +33,9 @@ yarn start
 * `buyNFT` 购买某个项目的 NFT，需支付费用 `token.ftSwapAmount * ftPrice`
 * `swapToFT` 把某个持有的 NFT 兑换成 FT
 * `swapToNFT` 销毁 `token.ftSwapAmount` 个 FT，兑换为一个没有持有人的 NFT
+* [TBD] `distributeSBTIncome` 项目所有人分配 SBT 收入
+* [TBD] `claimSBTIncome`  NFT 持有者 claim SBT 收入
+* [TBD] `withdrawTokenValut` 项目所有人提取项目 NFT 和 FT 的销售收入
 
 # 🏗 Scaffold-ETH 2
 

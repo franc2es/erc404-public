@@ -205,4 +205,29 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 		_tokenNFTOwnedMap[tokenId_][msg.sender].push(subTokenId_);
 		_tokenNFTAmount[tokenId_] += 1;
 	}
+
+	function distributeSBTIncome(uint256 tokenId_) public view {
+		require(_tokenSBTVault[tokenId_] > 0, "SBT Value is zero");
+		require(
+			_tokenMap[tokenId_].owner == msg.sender,
+			"Your are not the token owner"
+		);
+		// TBD
+	}
+
+	function claimSBTIncome(uint256 tokenId_, uint256 seasonId_) public view {
+		require(
+			_tokenNFTOwnedMap[tokenId_][msg.sender].length > 0,
+			"You do not have NFT"
+		);
+		// TBD
+	}
+
+	function withdrawTokenValut(uint256 tokenId_) public view {
+		require(
+			_tokenMap[tokenId_].owner == msg.sender,
+			"Your are not the token owner"
+		);
+		// TBD
+	}
 }
