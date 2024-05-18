@@ -3,12 +3,12 @@ import { DeployFunction } from "hardhat-deploy/types";
 // import { Contract } from "ethers";
 
 /**
- * Deploys a contract named "ERC404_Public" using the deployer account and
+ * Deploys a contract named "ERC404_Movie" using the deployer account and
  * constructor arguments set to the deployer address
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-const deployERC404_Public: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const deployERC404_Movie: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   /*
     On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
 
@@ -22,7 +22,7 @@ const deployERC404_Public: DeployFunction = async function (hre: HardhatRuntimeE
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("ERC404_Public", {
+  await deploy("ERC404_Movie", {
     from: deployer,
     // Contract constructor arguments
     args: [deployer],
@@ -33,11 +33,11 @@ const deployERC404_Public: DeployFunction = async function (hre: HardhatRuntimeE
   });
 
   // Get the deployed contract to interact with it after deploying.
-  // const ERC404_Public = await hre.ethers.getContract<Contract>("ERC404_Public", deployer);
+  // const ERC404_Movie = await hre.ethers.getContract<Contract>("ERC404_Movie", deployer);
 };
 
-export default deployERC404_Public;
+export default deployERC404_Movie;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
-// e.g. yarn deploy --tags ERC404_Public
-deployERC404_Public.tags = ["ERC404_Public"];
+// e.g. yarn deploy --tags ERC404_Movie
+deployERC404_Movie.tags = ["ERC404_Movie"];
