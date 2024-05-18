@@ -15,10 +15,11 @@ yarn start
 ```
 ## 项目功能
 
-1. 每张电影票就是一个 SBT，只可以付费购买，不能转移，用户可以一次性使用, 则该 SBT 被 Lock
-2. 每个电影可以发行 10K 的 NFT，持有 NFT 钱包地址有电影票 SBT 的售卖分红权
-3. NFT 可以用来和智能合约接口 `swapToFT` 来兑换为 10k 的 ERC20 的 FT
-4. 同理，集齐 10k 的 ERC20 FT 可以通过接口 `swapToNFT` 兑换为 NFT
+* 可以通过 `launch` 接口发起项目
+* 每张电影票就是一个 SBT，只可以付费购买，不能转移，用户可以一次性使用, 则该 SBT 被 Lock
+* 每个电影可以发行 10K 的 NFT，持有 NFT 钱包地址有电影票 SBT 的售卖分红权
+* NFT 可以用来和智能合约接口 `swapToFT` 来兑换为 10k 的 ERC20 的 FT
+* 同理，集齐 10k 的 ERC20 FT 可以通过接口 `swapToNFT` 兑换为 NFT
 
 # 🏗 Scaffold-ETH 2
 
