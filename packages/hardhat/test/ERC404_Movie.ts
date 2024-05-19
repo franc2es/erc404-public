@@ -26,7 +26,7 @@ describe("ERC404_Movie", function () {
   //   });
   // });
 
-  describe("tmp", function () {
+  describe("userFlow", function () {
     it("buySBT", async function () {
       const sbtPrice = 10 ** 15;
       const ftPrice = 10 ** 15;
