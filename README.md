@@ -1,6 +1,6 @@
 # ERC404-Movie
 
-项目基于 `Scaffold-ETH 2` 初始化，我们借鉴了 `[ERC404](https://github.com/Pandora-Labs-Org/erc404)` 及参考了 `[ERC404-Pro](https://github.com/HelloRWA/ERC404Pro)` 的一些逻辑设计思路，打造了我们的基于 ERC404 的电影票售卖、权益分发平台。
+项目基于 `Scaffold-ETH 2` 初始化，我们借鉴了 [`ERC404`](https://github.com/Pandora-Labs-Org/erc404) 及参考了 [`ERC404-Pro`](https://github.com/HelloRWA/ERC404Pro) 的一些逻辑设计思路，打造了我们的基于 ERC404 的电影票售卖、权益分发平台。
 
 ## 项目视频介绍
 
