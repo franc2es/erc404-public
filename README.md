@@ -11,6 +11,7 @@ TBD
 ```sh
 yarn chain
 yarn deploy
+yarn deploy --network scrollSepolia
 yarn start
 ```
 

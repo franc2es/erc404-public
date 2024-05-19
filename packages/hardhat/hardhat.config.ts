@@ -111,6 +111,12 @@ const config: HardhatUserConfig = {
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
       accounts,
+      verify: {
+        etherscan: {
+          apiUrl: 'https://api-sepolia.scrollscan.com/api',
+          apiKey: process.env.scrollSepoliaAPIKey
+        }
+      },
     },
     scroll: {
       url: "https://rpc.scroll.io",
@@ -127,7 +133,20 @@ const config: HardhatUserConfig = {
   },
   // configuration for harhdat-verify plugin
   etherscan: {
-    apiKey: `${etherscanApiKey}`,
+    // apiKey: `${etherscanApiKey}`,
+    apiKey: {
+       scrollSepolia: process.env.scrollSepoliaAPIKey,
+    },
+    customChains: [
+      {
+        network: 'scrollSepolia',
+        chainId: 534351,
+        urls: {
+          apiURL: 'https://api-sepolia.scrollscan.com/api',
+          browserURL: 'https://sepolia.scrollscan.com/',
+        },
+      },
+    ],
   },
   // configuration for etherscan-verify from hardhat-deploy plugin
   verify: {

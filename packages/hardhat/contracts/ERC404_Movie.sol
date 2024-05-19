@@ -220,6 +220,7 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 			_tokenNFTOwnedMap[tokenId_][msg.sender].length > 0,
 			"You do not have NFT"
 		);
+		require(seasonId_ != 0, "Just remove compile error");
 		// TBD
 	}
 
