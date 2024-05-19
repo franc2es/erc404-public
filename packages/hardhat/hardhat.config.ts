@@ -13,11 +13,17 @@ import "hardhat-deploy-ethers";
 // If not set, it uses ours Alchemy's default API key.
 // You can get your own at https://dashboard.alchemyapi.io
 const providerApiKey = process.env.ALCHEMY_API_KEY || "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
-// If not set, it uses the hardhat account 0 private key.
-const deployerPrivateKey =
-  process.env.DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 // If not set, it uses ours Etherscan default API key.
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
+
+const mnemonic = process.env.MNEMONIC || "test test test test test test test test test test test junk"
+const accounts = {
+  mnemonic,
+  path: "m/44'/60'/0'/0",
+  initialIndex: 0,
+  count: 20,
+  passphrase: "",
+};
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -48,75 +54,75 @@ const config: HardhatUserConfig = {
     },
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     arbitrum: {
       url: `https://arb-mainnet.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     arbitrumSepolia: {
       url: `https://arb-sepolia.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     optimism: {
       url: `https://opt-mainnet.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     optimismSepolia: {
       url: `https://opt-sepolia.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     polygon: {
       url: `https://polygon-mainnet.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     polygonMumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     polygonZkEvm: {
       url: `https://polygonzkevm-mainnet.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     polygonZkEvmTestnet: {
       url: `https://polygonzkevm-testnet.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     gnosis: {
       url: "https://rpc.gnosischain.com",
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     chiado: {
       url: "https://rpc.chiadochain.net",
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     base: {
       url: "https://mainnet.base.org",
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     baseSepolia: {
       url: "https://sepolia.base.org",
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     scroll: {
       url: "https://rpc.scroll.io",
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     pgn: {
       url: "https://rpc.publicgoods.network",
-      accounts: [deployerPrivateKey],
+      accounts,
     },
     pgnTestnet: {
       url: "https://sepolia.publicgoods.network",
-      accounts: [deployerPrivateKey],
+      accounts,
     },
   },
   // configuration for harhdat-verify plugin
