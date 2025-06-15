@@ -23,9 +23,9 @@ enum SBTStatus {
 contract ERC404_Movie is ERC1155Pausable, Ownable {
 	event SBTBought(address indexed buyer, uint256 indexed tokenId, uint256 price);
 	event FTBought(address indexed buyer, uint256 indexed tokenId, uint256 amount, uint256 price);
-	event NFTBought(address indexed buyer, uint256 indexed tokenId, uint256 subTokenId, uint256 price);
-	event SwappedToFT(address indexed user, uint256 indexed tokenId, uint256 subTokenId, uint256 ftAmount);
-	event SwappedToNFT(address indexed user, uint256 indexed tokenId, uint256 subTokenId);
+	//event NFTBought(address indexed buyer, uint256 indexed tokenId, uint256 subTokenId, uint256 price);
+	//event SwappedToFT(address indexed user, uint256 indexed tokenId, uint256 subTokenId, uint256 ftAmount);
+	//event SwappedToNFT(address indexed user, uint256 indexed tokenId, uint256 subTokenId);
 
 	uint256 private _nextTokenId = 1;
 
