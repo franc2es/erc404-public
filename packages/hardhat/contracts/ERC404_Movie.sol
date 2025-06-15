@@ -21,6 +21,12 @@ enum SBTStatus {
 }
 
 contract ERC404_Movie is ERC1155Pausable, Ownable {
+	event SBTBought(address indexed buyer, uint256 indexed tokenId, uint256 price);
+	event FTBought(address indexed buyer, uint256 indexed tokenId, uint256 amount, uint256 price);
+	event NFTBought(address indexed buyer, uint256 indexed tokenId, uint256 subTokenId, uint256 price);
+	event SwappedToFT(address indexed user, uint256 indexed tokenId, uint256 subTokenId, uint256 ftAmount);
+	event SwappedToNFT(address indexed user, uint256 indexed tokenId, uint256 subTokenId);
+
 	uint256 private _nextTokenId = 1;
 
 	mapping(uint256 => Token) _tokenMap;
@@ -85,6 +91,7 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 		);
 		_sbtStatusMap[tokenId_][msg.sender] = SBTStatus.PAID;
 		_tokenSBTVault[tokenId_] += msg.value;
+		emit SBTBought(msg.sender, tokenId_, msg.value);//用作graph
 	}
 
 	function sbtStatus(
@@ -141,6 +148,7 @@ contract ERC404_Movie is ERC1155Pausable, Ownable {
 		_mint(msg.sender, tokenId_, amount_, "");
 		_tokenFTAmount[tokenId_] += amount_;
 		_tokenVault[tokenId_] += msg.value;
+		emit FTBought(msg.sender, tokenId_, amount_, msg.value);
 	}
 
 	function buyNFT(
