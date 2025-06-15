@@ -1,0 +1,23 @@
+type Token @entity {
+  id: ID!
+  name: String!
+  sbtPrice: BigInt!
+  ftPrice: BigInt!
+  ftSwapAmount: BigInt!
+  owner: Bytes!
+  ftAmount: BigInt!
+  nftAmount: BigInt!
+}
+
+type SBTStatus @entity {
+  id: ID! # 由 tokenId + user 地址拼接而成
+  token: Token!
+  user: Bytes!
+  status: Int!  # 0=NONE,1=PAID,2=USED
+}
+
+type NFT @entity {
+  id: ID! # 由 tokenId + subTokenId 拼接
+  token: Token!
+  owner: Bytes
+}

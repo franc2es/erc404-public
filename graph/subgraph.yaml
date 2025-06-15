@@ -1,0 +1,35 @@
+specVersion: 0.0.2
+description: ERC404 Movie subgraph
+repository: https://github.com/你的repo地址
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ERC404_Movie
+    network: mainnet
+    source:
+      address: "合约地址"
+      abi: ERC404_Movie
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - SBTStatus
+        - NFT
+      abis:
+        - name: ERC404_Movie
+          file: ./abis/ERC404_Movie.json
+      eventHandlers:
+        - event: TokenLaunched(uint256,string,uint256,uint256,uint256,address)
+          handler: handleTokenLaunched
+        - event: SBTBought(uint256,address)
+          handler: handleSBTBought
+        - event: SBTUsed(uint256,address)
+          handler: handleSBTUsed
+        - event: NFTBought(uint256,uint256,address)
+          handler: handleNFTBought
+        - event: NFTTransferred(uint256,uint256,address,address)
+          handler: handleNFTTransferred
+      file: ./src/mapping.ts
